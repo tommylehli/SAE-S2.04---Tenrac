@@ -1,0 +1,9 @@
+Affilie
+Sympathisant
+Adhérent
+Chevalier
+Dame
+Grand Chevalier
+Haute Dame
+Commandeur
+Grand’Croix
