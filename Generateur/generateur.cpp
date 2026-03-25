@@ -122,7 +122,7 @@ int main(const int argc, const char *argv[]){
 	srand(time(nullptr));
 	if (argc < 2) return 1;
 
-	std::ofstream file("Tenrac.csv");
+	std::ofstream file("Organisme.csv");
 	const unsigned numberOfElements = 10;
 
 	std::string header = "";
@@ -184,6 +184,8 @@ int main(const int argc, const char *argv[]){
 		file << dataAttribute5;
 		file << ";";
 		file << dataAttribute6;
+		file << ";";
+		file << dataAttribute7;
 		file << ";";
 		file << dataAttribute8;
 		file << ";";
