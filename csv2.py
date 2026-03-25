@@ -14,7 +14,7 @@ batch_size = 2
 
 def escape(value):
     value = value.strip()
-    if value == "":
+    if value == "NULL":
         return "NULL"
     return "'" + value.replace("'", "''") + "'"
 
