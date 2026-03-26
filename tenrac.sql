@@ -206,8 +206,8 @@ CREATE TABLE Entretient(
 );
 
 CREATE TABLE DateDeb(
-   DateDeb DATE,
-   PRIMARY KEY(DateDeb)
+   dateDeb DATE,
+   PRIMARY KEY(dateDeb)
 );
 
 CREATE TABLE Certificat(
@@ -332,11 +332,12 @@ CREATE TABLE Definit(
 CREATE TABLE Repare(
    idMachine NUMBER(10, 0),
    typeEntretient VARCHAR2(75),
-   DateDeb DATE,
-   PRIMARY KEY(idMachine, typeEntretient, DateDeb),
+   dateDeb DATE,
+   dateFin, DATE,
+   PRIMARY KEY(idMachine, typeEntretient, dateDeb),
    FOREIGN KEY(idMachine) REFERENCES Machine(idMachine),
    FOREIGN KEY(typeEntretient) REFERENCES Entretient(typeEntretient),
-   FOREIGN KEY(DateDeb) REFERENCES DateDeb(DateDeb)
+   FOREIGN KEY(dateDeb) REFERENCES dateDeb(dateDeb)
 );
 
 CREATE TABLE Enregistre1(
