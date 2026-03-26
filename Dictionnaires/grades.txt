@@ -1,6 +1,6 @@
 Affilie
 Sympathisant
-Adhérent
+Adherent
 Chevalier
 Dame
 Grand Chevalier

@@ -3,7 +3,7 @@
 PROMPT "Création des tables de la partie jaune du MCD"
 
 CREATE TABLE Organisme(
-   refOrganisme NUMBER(5, 0),
+   refOrganisme NUMBER(10, 0),
    nomOrganisme VARCHAR2(50) NOT NULL,
    typeOrganisme VARCHAR2(50) NOT NULL,
    raisonSociale VARCHAR2(50) NOT NULL,
@@ -34,20 +34,20 @@ CREATE TABLE Grade(
 );
 
 CREATE TABLE Organisation(
-   numero NUMBER(5, 0),
+   numero NUMBER(10, 0),
    adresse VARCHAR2(200) NOT NULL,
    PRIMARY KEY(numero)
 );
 
 CREATE TABLE Ordre(
-   numero NUMBER(5, 0),
+   numero NUMBER(10, 0),
    nomOrdre VARCHAR2(50) NOT NULL,
    PRIMARY KEY(numero),
    FOREIGN KEY(numero) REFERENCES Organisation(numero)
 );
 
 CREATE TABLE Club(
-   numero NUMBER(5, 0),
+   numero NUMBER(10, 0),
    nomClub VARCHAR2(50) NOT NULL,
    numeroOrdre NUMBER(5, 0),
    PRIMARY KEY(numero),
@@ -56,18 +56,16 @@ CREATE TABLE Club(
 );
 
 CREATE TABLE Tenrac(
-   numero NUMBER(5, 0),
-   refOrganisme NUMBER(5, 0),
-   codeMembre NUMBER(5, 0),
+   numero NUMBER(20, 0),
+   refOrganisme NUMBER(10, 0),
+   codeMembre NUMBER(10, 0),
    nom VARCHAR2(50) NOT NULL,
    prenom VARCHAR2(50) NOT NULL,
    courriel VARCHAR2(50) NOT NULL,
    numeroTel VARCHAR2(14) NOT NULL,
     CONSTRAINT ck_tenrac_tel
     CHECK (REGEXP_LIKE(numeroTel, '[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]')),
-   adressePostale VARCHAR2(7) NOT NULL,
-    CONSTRAINT ck_tenrac_adresse
-    CHECK (REGEXP_LIKE(adressePostale, '[0-9][0-9][0-9][0-9][0-9]')),
+   adressePostale VARCHAR2(100) NOT NULL,
    nomGrade VARCHAR2(50) NOT NULL,
    dignite VARCHAR2(50),
    titre VARCHAR2(50),
@@ -82,7 +80,7 @@ CREATE TABLE Tenrac(
 );
 
 CREATE TABLE GradeSuperieur(
-   numero NUMBER(5, 0),
+   numero NUMBER(20, 0),
    refOrganisme NUMBER(5, 0),
    codeMembre NUMBER(5, 0),
    PRIMARY KEY(numero, refOrganisme, codeMembre),
@@ -94,17 +92,17 @@ CREATE TABLE GradeSuperieur(
 PROMPT "Création des tables de la partie verte du MCD"
 
 CREATE TABLE Groupe(
-   idGroupe NUMBER(5, 0),
-   numero NUMBER(5, 0) NOT NULL,
-   refOrganisme NUMBER(5, 0) NOT NULL,
-   codeMembre NUMBER(5, 0) NOT NULL,
+   idGroupe NUMBER(10, 0),
+   numero NUMBER(10, 0) NOT NULL,
+   refOrganisme NUMBER(10, 0) NOT NULL,
+   codeMembre NUMBER(10, 0) NOT NULL,
    PRIMARY KEY(idGroupe),
    FOREIGN KEY(numero, refOrganisme, codeMembre) REFERENCES GradeSuperieur(numero, refOrganisme, codeMembre)
 );
 
 CREATE TABLE Partenaire(
    adresse VARCHAR2(150),
-   numero NUMBER(5, 0) NOT NULL,
+   numero NUMBER(10, 0) NOT NULL,
    PRIMARY KEY(adresse),
    FOREIGN KEY(numero) REFERENCES Ordre(numero)
 );
@@ -115,8 +113,8 @@ CREATE TABLE Date_(
 );
 
  CREATE TABLE Repas(
-   idRepas NUMBER(5, 0),
-   nomRepas VARCHAR2(50) NOT NULL,
+   idRepas NUMBER(10, 0),
+   nomRepas VARCHAR2(100) NOT NULL,
    PRIMARY KEY(idRepas)
 );
 
@@ -125,56 +123,56 @@ CREATE TABLE Date_(
 PROMPT "Création des tables de la partie orange du MCD"
 
 CREATE TABLE Plat(
-   idPlat NUMBER(5, 0),
-   nomPlat VARCHAR2(50) NOT NULL,
+   idPlat NUMBER(10, 0),
+   nomPlat VARCHAR2(100) NOT NULL,
    PRIMARY KEY(idPlat)
 );
 
 CREATE TABLE Aliment(
-   nomAliment VARCHAR2(50),
+   nomAliment VARCHAR2(75),
    PRIMARY KEY(nomAliment)
 );
 
 CREATE TABLE Legume(
-   nomAliment VARCHAR2(50),
+   nomAliment VARCHAR2(75),
    PRIMARY KEY(nomAliment),
    FOREIGN KEY(nomAliment) REFERENCES Aliment(nomAliment)
 );
 
 CREATE TABLE Sauce(
-   idSauce NUMBER(5, 0),
+   idSauce NUMBER(10, 0),
    nomSauce VARCHAR2(50) NOT NULL,
    PRIMARY KEY(idSauce)
 );
 
 CREATE TABLE Ingredient(
-   idIngredient NUMBER(5, 0),
+   idIngredient NUMBER(10, 0),
    nomIngredient VARCHAR2(50) NOT NULL,
    PRIMARY KEY(idIngredient)
 );
 
 CREATE TABLE Intolerance(
-   idIntolerance NUMBER(5, 0),
+   idIntolerance NUMBER(10, 0),
    PRIMARY KEY(idIntolerance)
 );
 
 CREATE TABLE Allergie(
-   idIntolerance NUMBER(5, 0),
+   idIntolerance NUMBER(10, 0),
    nomAllergie VARCHAR2(50) NOT NULL,
    PRIMARY KEY(idIntolerance),
    FOREIGN KEY(idIntolerance) REFERENCES Intolerance(idIntolerance)
 );
 
 CREATE TABLE Croyance(
-   idIntolerance NUMBER(5, 0),
+   idIntolerance NUMBER(10, 0),
    nomCroyance VARCHAR2(50) NOT NULL,
    PRIMARY KEY(idIntolerance),
    FOREIGN KEY(idIntolerance) REFERENCES Intolerance(idIntolerance)
 );
 
 CREATE TABLE Conviction(
-   idIntolerance NUMBER(5, 0),
-   nomConviction VARCHAR2(50) NOT NULL,
+   idIntolerance NUMBER(10, 0),
+   nomConviction VARCHAR2(100) NOT NULL,
    PRIMARY KEY(idIntolerance),
    FOREIGN KEY(idIntolerance) REFERENCES Intolerance(idIntolerance)
 );
@@ -184,26 +182,26 @@ CREATE TABLE Conviction(
 PROMPT "Création des tables de la partie violette du MCD"
 
 CREATE TABLE Modele(
-   idModele NUMBER(5, 0),
-   nomModele VARCHAR2(50) NOT NULL,
+   idModele NUMBER(10, 0),
+   nomModele VARCHAR2(100) NOT NULL,
    PRIMARY KEY(idModele)
 );
 
 CREATE TABLE Machine(
-   idMachine NUMBER(5, 0),
-   nomMachine VARCHAR2(50) NOT NULL,
-   idModele NUMBER(5, 0) NOT NULL,
+   idMachine NUMBER(10, 0),
+   nomMachine VARCHAR2(100) NOT NULL,
+   idModele NUMBER(10, 0) NOT NULL,
    PRIMARY KEY(idMachine),
    FOREIGN KEY(idModele) REFERENCES Modele(idModele)
 );
 
 CREATE TABLE Type(
-   nomType VARCHAR2(50),
+   nomType VARCHAR2(100),
    PRIMARY KEY(nomType)
 );
 
 CREATE TABLE Entretient(
-   typeEntretient VARCHAR2(50),
+   typeEntretient VARCHAR2(75),
    PRIMARY KEY(typeEntretient)
 );
 
@@ -213,10 +211,10 @@ CREATE TABLE DateDeb(
 );
 
 CREATE TABLE Certificat(
-   idCertificat NUMBER(5, 0),
-   numero NUMBER(5, 0) NOT NULL,
-   refOrganisme NUMBER(5, 0) NOT NULL,
-   codeMembre NUMBER(5, 0) NOT NULL,
+   idCertificat NUMBER(10, 0),
+   numero NUMBER(10, 0) NOT NULL,
+   refOrganisme NUMBER(10, 0) NOT NULL,
+   codeMembre NUMBER(10, 0) NOT NULL,
    PRIMARY KEY(idCertificat),
    FOREIGN KEY(numero, refOrganisme, codeMembre) REFERENCES Tenrac(numero, refOrganisme, codeMembre)
 );
@@ -226,10 +224,10 @@ CREATE TABLE Certificat(
 PROMPT "Création des tables de la partie association du MCD"
 
 CREATE TABLE Rejoint(
-   numero NUMBER(5, 0),
-   refOrganisme NUMBER(5, 0),
-   codeMembre NUMBER(5, 0),
-   idGroupe NUMBER(5, 0),
+   numero NUMBER(10, 0),
+   refOrganisme NUMBER(10, 0),
+   codeMembre NUMBER(10, 0),
+   idGroupe NUMBER(10, 0),
    PRIMARY KEY(numero, refOrganisme, codeMembre, idGroupe),
    FOREIGN KEY(numero, refOrganisme, codeMembre) REFERENCES Tenrac(numero, refOrganisme, codeMembre),
    FOREIGN KEY(idGroupe) REFERENCES Groupe(idGroupe)
@@ -238,8 +236,8 @@ CREATE TABLE Rejoint(
 CREATE TABLE Deguste(
    adresse VARCHAR2(150),
    date_ DATE,
-   idGroupe NUMBER(5, 0),
-   idRepas NUMBER(5, 0),
+   idGroupe NUMBER(10, 0),
+   idRepas NUMBER(10, 0),
    PRIMARY KEY(adresse, date_, idGroupe, idRepas),
    FOREIGN KEY(adresse) REFERENCES Partenaire(adresse),
    FOREIGN KEY(date_) REFERENCES Date_(date_),
@@ -248,51 +246,51 @@ CREATE TABLE Deguste(
 );
 
 CREATE TABLE Compose(
-   idRepas NUMBER(5, 0),
-   idPlat NUMBER(5, 0),
+   idRepas NUMBER(10, 0),
+   idPlat NUMBER(10, 0),
    PRIMARY KEY(idRepas, idPlat),
    FOREIGN KEY(idRepas) REFERENCES Repas(idRepas),
    FOREIGN KEY(idPlat) REFERENCES Plat(idPlat)
 );
 
 CREATE TABLE Accompagne(
-   idPlat NUMBER(5, 0),
-   idSauce NUMBER(5, 0),
+   idPlat NUMBER(10, 0),
+   idSauce NUMBER(10, 0),
    PRIMARY KEY(idPlat, idSauce),
    FOREIGN KEY(idPlat) REFERENCES Plat(idPlat),
    FOREIGN KEY(idSauce) REFERENCES Sauce(idSauce)
 );
 
 CREATE TABLE Forme(
-   idSauce NUMBER(5, 0),
-   idIngredient NUMBER(5, 0),
+   idSauce NUMBER(10, 0),
+   idIngredient NUMBER(10, 0),
    PRIMARY KEY(idSauce, idIngredient),
    FOREIGN KEY(idSauce) REFERENCES Sauce(idSauce),
    FOREIGN KEY(idIngredient) REFERENCES Ingredient(idIngredient)
 );
 
 CREATE TABLE Elabore(
-   nomAliment VARCHAR2(50),
-   idIngredient NUMBER(5, 0),
+   nomAliment VARCHAR2(75),
+   idIngredient NUMBER(10, 0),
    PRIMARY KEY(nomAliment, idIngredient),
    FOREIGN KEY(nomAliment) REFERENCES Aliment(nomAliment),
    FOREIGN KEY(idIngredient) REFERENCES Ingredient(idIngredient)
 );
 
 CREATE TABLE Constitue(
-   idPlat NUMBER(5, 0),
-   nomAliment VARCHAR2(50),
+   idPlat NUMBER(10, 0),
+   nomAliment VARCHAR2(75),
    PRIMARY KEY(idPlat, nomAliment),
    FOREIGN KEY(idPlat) REFERENCES Plat(idPlat),
    FOREIGN KEY(nomAliment) REFERENCES Aliment(nomAliment)
 );
 
 CREATE TABLE Provoque(
-   numero NUMBER(5, 0),
-   refOrganisme NUMBER(5, 0),
-   codeMembre NUMBER(5, 0),
-   nomAliment VARCHAR2(50),
-   idIntolerance NUMBER(5, 0),
+   numero NUMBER(10, 0),
+   refOrganisme NUMBER(10, 0),
+   codeMembre NUMBER(10, 0),
+   nomAliment VARCHAR2(75),
+   idIntolerance NUMBER(10, 0),
    PRIMARY KEY(numero, refOrganisme, codeMembre, nomAliment, idIntolerance),
    FOREIGN KEY(numero, refOrganisme, codeMembre) REFERENCES Tenrac(numero, refOrganisme, codeMembre),
    FOREIGN KEY(nomAliment) REFERENCES Legume(nomAliment),
@@ -300,40 +298,40 @@ CREATE TABLE Provoque(
 );
 
 CREATE TABLE UtilisationOfficielle(
-   idRepas NUMBER(5, 0),
-   idMachine NUMBER(5, 0),
+   idRepas NUMBER(10, 0),
+   idMachine NUMBER(10, 0),
    PRIMARY KEY(idRepas, idMachine),
    FOREIGN KEY(idRepas) REFERENCES Repas(idRepas),
    FOREIGN KEY(idMachine) REFERENCES Machine(idMachine)
 );
 
 CREATE TABLE Possede(
-   idMachine NUMBER(5, 0),
-   idCertificat NUMBER(5, 0),
+   idMachine NUMBER(10, 0),
+   idCertificat NUMBER(10, 0),
    PRIMARY KEY(idMachine, idCertificat),
    FOREIGN KEY(idMachine) REFERENCES Machine(idMachine),
    FOREIGN KEY(idCertificat) REFERENCES Certificat(idCertificat)
 );
 
 CREATE TABLE Correspond(
-   idModele NUMBER(5, 0),
-   nomType VARCHAR2(50),
+   idModele NUMBER(10, 0),
+   nomType VARCHAR2(100),
    PRIMARY KEY(idModele, nomType),
    FOREIGN KEY(idModele) REFERENCES Modele(idModele),
    FOREIGN KEY(nomType) REFERENCES type(nomType)
 );
 
 CREATE TABLE Definit(
-   nomType VARCHAR2(50),
-   typeEntretient VARCHAR2(50),
+   nomType VARCHAR2(100),
+   typeEntretient VARCHAR2(75),
    PRIMARY KEY(nomType, typeEntretient),
    FOREIGN KEY(nomType) REFERENCES type(nomType),
    FOREIGN KEY(typeEntretient) REFERENCES Entretient(typeEntretient)
 );
 
 CREATE TABLE Repare(
-   idMachine NUMBER(5, 0),
-   typeEntretient VARCHAR2(50),
+   idMachine NUMBER(10, 0),
+   typeEntretient VARCHAR2(75),
    DateDeb DATE,
    PRIMARY KEY(idMachine, typeEntretient, DateDeb),
    FOREIGN KEY(idMachine) REFERENCES Machine(idMachine),
@@ -342,16 +340,16 @@ CREATE TABLE Repare(
 );
 
 CREATE TABLE Enregistre1(
-   numero NUMBER(5, 0),
-   idCertificat NUMBER(5, 0),
+   numero NUMBER(10, 0),
+   idCertificat NUMBER(10, 0),
    PRIMARY KEY(numero, idCertificat),
    FOREIGN KEY(numero) REFERENCES Club(numero),
    FOREIGN KEY(idCertificat) REFERENCES Certificat(idCertificat)
 );
 
 CREATE TABLE Enregistre2(
-   numero NUMBER(5, 0),
-   idCertificat NUMBER(5, 0),
+   numero NUMBER(10, 0),
+   idCertificat NUMBER(10, 0),
    PRIMARY KEY(numero, idCertificat),
    FOREIGN KEY(numero) REFERENCES Ordre(numero),
    FOREIGN KEY(idCertificat) REFERENCES Certificat(idCertificat)
