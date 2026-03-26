@@ -365,7 +365,6 @@ FOR EACH ROW
 DECLARE
   v_grade_tenrac Tenrac.nomGrade%TYPE;
 BEGIN
-  -- 1. On récupère le grade du membre depuis la table Tenrac
   BEGIN
     SELECT nomGrade 
     INTO v_grade_tenrac
@@ -374,33 +373,68 @@ BEGIN
       AND refOrganisme = :NEW.refOrganisme 
       AND codeMembre = :NEW.codeMembre;
   
-  -- 2. On vérifie si le membre existe dans Tenrac
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
-      RAISE_APPLICATION_ERROR(-20001, 'Impossible d''ajouter : Ce membre n''existe pas dans Tenrac.');
+      RAISE_APPLICATION_ERROR(-20001, 'Erreur : Ce membre n''existe pas dans Tenrac.');
   END;
 
-  -- 3. On vérifie si ce grade récupéré est suffisant
   IF TRIM(v_grade_tenrac) NOT IN ('Chevalier', 'Dame', 'Grand Chevalier', 'Haute Dame', 'Commandeur', 'Grand''Croix') THEN
     RAISE_APPLICATION_ERROR(-20002, 'Le grade actuel du membre (' || v_grade_tenrac || ') est insuffisant pour présider une réunion.');
   END IF;
 END;
 /
 
-INSERT INTO Organisation VALUES (1, 'adzhaosdll');
-INSERT INTO Organisme VALUES (1, 'AMU', 'sqdmqlsd', 'sqdkhsqdhk', 10101010101010);
-INSERT INTO Grade VALUES ('Chevalier');
-INSERT INTO Grade VALUES ('Adherent');
-INSERT INTO Dignite VALUES ('Maitre');
-INSERT INTO Rang VALUES ('Novice');
-INSERT INTO Titre VALUES ('Philanthrope');
-INSERT INTO Tenrac VALUES (1,1,1, 'Bartal', 'Manal', 'asdbhqsjkdcvqsui', '00-00-00-00-00', '00000', 'Adherent', 'Maitre', 'Philanthrope', 'Novice');
-INSERT INTO GradeSuperieur VALUES (1,1,1);
+CREATE OR REPLACE TRIGGER trg_insert_utilisationofficielle
+BEFORE INSERT OR UPDATE ON UtilisationOfficielle
+FOR EACH ROW
+DECLARE
+  v_estcertif Machine.idMachine%TYPE;
+BEGIN
+  BEGIN
+    SELECT idMachine
+    INTO v_estcertif
+    FROM Machine
+    WHERE idMachine = :NEW.idMachine;
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Erreur : La machine ' || :NEW.idMachine || ' n''existe pas dans Machine.');
+  END;
+  
+  BEGIN
+    SELECT idMachine
+    INTO v_estcertif
+    FROM Possede
+    WHERE idMachine = :NEW.idMachine;
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20004, 'Erreur : La machine ' || :NEW.idMachine || ' n''existe pas dans Possede.');
+  END;
+END;
+/
 
-INSERT INTO Organisation VALUES (2, 'adzhaosdll');
-INSERT INTO Organisme VALUES (2, 'AMU', 'sqdmqlsd', 'sqdkhsqdhk', 10101010101010);
-INSERT INTO Tenrac VALUES (2,2,2, 'Bartal', 'Manal', 'asdbhqsjkdcvqsui', '00-00-00-00-00', '00000', 'Chevalier', 'Maitre', 'Philanthrope', 'Novice');
-INSERT INTO GradeSuperieur VALUES (2,2,2);
+CREATE OR REPLACE TRIGGER trg_insert_certif
+BEFORE INSERT OR UPDATE ON Certificat
+FOR EACH ROW
+DECLARE 
+  v_dignite_tenrac Tenrac.dignite%TYPE;
+BEGIN
+  BEGIN
+    SELECT dignite 
+    INTO v_dignite_tenrac
+    FROM Tenrac
+    WHERE numero = :NEW.numero 
+      AND refOrganisme = :NEW.refOrganisme 
+      AND codeMembre = :NEW.codeMembre;
+  
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Erreur : Ce membre n''existe pas dans Tenrac.');
+  END;
 
-Select * from Tenrac;
-select * from GradeSuperieur;
+  IF TRIM(v_dignite_tenrac) IS NULL THEN
+    RAISE_APPLICATION_ERROR(-20006, 'Le membre ne possède pas de dignité.');
+  END IF;
+END;
+/
