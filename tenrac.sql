@@ -35,7 +35,7 @@ CREATE TABLE Grade(
 
 CREATE TABLE Organisation(
    numero NUMBER(5, 0),
-   adresse VARCHAR2(50) NOT NULL,
+   adresse VARCHAR2(200) NOT NULL,
    PRIMARY KEY(numero)
 );
 
@@ -103,7 +103,7 @@ CREATE TABLE Groupe(
 );
 
 CREATE TABLE Partenaire(
-   adresse VARCHAR2(70),
+   adresse VARCHAR2(150),
    numero NUMBER(5, 0) NOT NULL,
    PRIMARY KEY(adresse),
    FOREIGN KEY(numero) REFERENCES Ordre(numero)
@@ -236,7 +236,7 @@ CREATE TABLE Rejoint(
 );
 
 CREATE TABLE Deguste(
-   adresse VARCHAR2(50),
+   adresse VARCHAR2(150),
    date_ DATE,
    idGroupe NUMBER(5, 0),
    idRepas NUMBER(5, 0),
