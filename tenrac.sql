@@ -333,7 +333,7 @@ CREATE TABLE Repare(
    idMachine NUMBER(10, 0),
    typeEntretient VARCHAR2(75),
    dateDeb DATE,
-   dateFin, DATE,
+   dateFin DATE,
    PRIMARY KEY(idMachine, typeEntretient, dateDeb),
    FOREIGN KEY(idMachine) REFERENCES Machine(idMachine),
    FOREIGN KEY(typeEntretient) REFERENCES Entretient(typeEntretient),
