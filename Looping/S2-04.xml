@@ -675,7 +675,7 @@
       </FK>
    </Table>
    <Table>
-      <Name>forme</Name>
+      <Name>Forme</Name>
       <Column>
          <Name>idSauce</Name>
          <Type>INT</Type>
@@ -801,7 +801,7 @@
       </FK>
    </Table>
    <Table>
-      <Name>elabore</Name>
+      <Name>Elabore</Name>
       <Column>
          <Name>nomAliment</Name>
          <Type>VARCHAR(50)</Type>
